@@ -47,7 +47,6 @@ export class RecipeService {
   }
 
   getRecipe(id: number) {
-    console.log(this.currentRoute.snapshot.params);
     return this.recipes[id];
   }
 }
