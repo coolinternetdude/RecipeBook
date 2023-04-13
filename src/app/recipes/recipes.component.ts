@@ -11,9 +11,5 @@ import { RecipeService } from './recipe.service';
 export class RecipesComponent {
   selectedRec: Recipe;
 
-  constructor(private recipeService: RecipeService) {
-    this.recipeService.selectedRecipe.subscribe((recipe: Recipe) => {
-      this.selectedRec = recipe;
-    });
-  }
+  constructor(private recipeService: RecipeService) {}
 }

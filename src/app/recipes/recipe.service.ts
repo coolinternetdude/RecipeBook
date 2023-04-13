@@ -2,12 +2,14 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingService } from '../shopping-list/shopping.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class RecipeService {
-  selectedRecipe = new EventEmitter<Recipe>();
-
-  constructor(private Shopping: ShoppingService) {}
+  constructor(
+    private Shopping: ShoppingService,
+    private currentRoute: ActivatedRoute
+  ) {}
   private recipes: Recipe[] = [
     new Recipe(
       'Big Tasty',
@@ -23,7 +25,7 @@ export class RecipeService {
     new Recipe(
       'Spaghetti bolognese',
       'Italian Spaghetti With tomato sauce',
-      'https://workweeklunch.com/wp-content/uploads/2022/10/spaghetti.bolognese-4.jpg',
+      'https://www.inspiredtaste.net/wp-content/uploads/2019/03/Spaghetti-with-Meat-Sauce-Recipe-1-1200.jpg',
       [
         new Ingredient('Spaghetti pasta', 250),
         new Ingredient('Canned Tomato Sauce', 1),
@@ -42,5 +44,10 @@ export class RecipeService {
     //   this.Shopping.addIngredient(item);
     // });
     this.Shopping.addIngredients(ingredients);
+  }
+
+  getRecipe(id: number) {
+    console.log(this.currentRoute.snapshot.params);
+    return this.recipes[id];
   }
 }

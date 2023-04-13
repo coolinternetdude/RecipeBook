@@ -4,6 +4,7 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
+import { SelectRecipeComponent } from './recipes/select-recipe/select-recipe.component';
 
 const appRoutes: Routes = [
   {
@@ -18,6 +19,16 @@ const appRoutes: Routes = [
   {
     path: 'recipes',
     component: RecipesComponent,
+    children: [
+      {
+        path: '',
+        component: SelectRecipeComponent,
+      },
+      {
+        path: ':id',
+        component: RecipeDetailComponent,
+      },
+    ],
   },
 ];
 
