@@ -1,15 +1,12 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingService } from '../shopping-list/shopping.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class RecipeService {
-  constructor(
-    private Shopping: ShoppingService,
-    private currentRoute: ActivatedRoute
-  ) {}
+  constructor(private Shopping: ShoppingService) {}
+
   private recipes: Recipe[] = [
     new Recipe(
       'Big Tasty',
