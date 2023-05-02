@@ -1,37 +1,35 @@
-<form class="form-horizontal">
-  <div class="form-group">
-    <label for="name" class="col-xs-1">Name :</label>
-    <div class="col-xs-8">
-      <input
-        type="text"
-        name="name"
-        id="name"
+<form class="form-horizontal" (ngSubmit)="addIngredient(shoppingForm)" #shoppingForm="ngForm">
+  <div class="row">
+    <div class="form-group">
+      <label for="name" class="col-xs-1">Name :</label>
+      <div class="col-xs-6">
+        <input type="text" name="name" id="name" class="form-control" ngModel required />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <label for="amount" class="col-xs-1">Amount :</label>
+      <div class="col-xs-6">
+        <input 
+        type="number"
+        name="amount"
+        id="amount"
         class="form-control"
-        #inputName
-      />
+        ngModel
+        required
+        pattern="^0*?[1-9]\d*$" />
+      </div>
     </div>
   </div>
-  <div class="form-group">
-    <label for="amount" class="col-xs-1">Amount :</label>
-    <div class="col-xs-8">
-      <input type="number" id="amount" class="form-control" #inputAmount />
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-xs-1">
-      <button
-        class="btn btn-success"
-        type="button"
-        (click)="addIngredient(inputName.value, inputAmount.value)"
-      >
-        Add
-      </button>
-    </div>
-    <div class="col-xs-1">
-      <button class="btn btn-danger" type="button">Delete</button>
-    </div>
-    <div class="col-xs-1">
-      <button class="btn btn-primary" type="button">Clear</button>
+  
+ 
+  <div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-success" type="submit" [disabled]="shoppingForm.invalid">{{editMode ? 'Edit' : 'Add'}}</button>
+      <button *ngIf="editMode" class="btn btn-danger" type="button" (click)="deleteItem()">Delete</button>
+      <button class="btn btn-primary" type="button" (click)="clearForm()">Clear</button>
     </div>
   </div>
 </form>
