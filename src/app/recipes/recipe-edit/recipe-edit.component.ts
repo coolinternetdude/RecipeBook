@@ -33,6 +33,9 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
       this.editMode = param['id'] ? true : false;
       this.initForm();
     });
+    this.currentRoute.data.subscribe((data) => {
+      console.log(data);
+    });
   }
 
   get controls() {

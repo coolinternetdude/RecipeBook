@@ -17,6 +17,9 @@ export class RecipeDetailComponent implements OnInit {
       this.id = +res['id'];
       this.recipe = this.recipeService.getRecipe(this.id);
     });
+    this.currentRoute.data.subscribe((data) => {
+      console.log(data);
+    });
   }
   constructor(
     private recipeService: RecipeService,
