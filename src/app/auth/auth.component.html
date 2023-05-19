@@ -1,16 +1,23 @@
 <div class="row col-lg-offset-3">
     <div class="col-lg-6">
-        <form #userForm="ngForm">
+        <div class="alert alert-danger" *ngIf="error !== null">
+            {{ error }}
+        </div>
+        <div *ngIf="isLoading" style="text-align: center;">
+            <app-loading-spinner></app-loading-spinner>
+        </div>
+        <form #userForm="ngForm" (ngSubmit)="authenticate(userForm)" *ngIf="!isLoading">
             <div class="form-group">
+                <!-- required & email are built-in input directives -->
                 <label for="email">Email :</label>
-                <input type="email" name="email" id="email" class="form-control" ngModel>
+                <input type="email" name="email" id="email" class="form-control" ngModel required email>
             </div>
             <div class="form-group">
                 <label for="password">Password :</label>
-                <input type="password" name="password" id="password" class="form-control" ngModel>
+                <input type="password" name="password" id="password" class="form-control" ngModel required minlength="6">
             </div>
             <div>
-                <button class="btn btn-primary" type="submit"> {{isLoginMode ? 'Log In' : 'Sign Up'}}</button> |
+                <button class="btn btn-primary" type="submit" [disabled]="userForm.invalid"> {{isLoginMode ? 'Log In' : 'Sign Up'}}</button> |
                 <button class="btn btn-info" (click)="switchModes()" type="button">
                     Switch to  {{isLoginMode ? 'Sign Up' : 'Log In'}}
                 </button>
