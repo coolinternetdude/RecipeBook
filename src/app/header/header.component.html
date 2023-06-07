@@ -34,8 +34,8 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a class="cursor: pointer" *ngIf="currentUser">Logout</a>
+        <li *ngIf="currentUser">
+          <a style="cursor: pointer;" (click)="loggingOut()">Logout </a>
         </li>
         <li class="dropdown" appDropdown>
           <a class="dropdown-toggle" role="button" *ngIf="currentUser">Manage <span class="caret">

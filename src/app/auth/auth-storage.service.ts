@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from './user.model';
 import { Injectable } from '@angular/core';
 import { catchError, throwError, BehaviorSubject, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 export interface AuthResponse {
   idToken: string;
@@ -16,7 +17,7 @@ export interface AuthResponse {
 export class AuthStorageService {
   user = new BehaviorSubject<User>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   // Function that handle error messages coming from firebase
   private errorHandler(resError: HttpErrorResponse) {
@@ -73,6 +74,13 @@ export class AuthStorageService {
           this.authenticateUser(resData);
         })
       );
+  }
+
+  // logout
+
+  logOut() {
+    this.user.next(null);
+    this.router.navigate(['/signin']);
   }
 
   authenticateUser(resData: {

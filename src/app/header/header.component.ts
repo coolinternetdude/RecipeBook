@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DataStorageService } from '../shared/data-storage.service';
 import { AuthStorageService } from '../auth/auth-storage.service';
 import { User } from '../auth/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -24,6 +25,10 @@ export class HeaderComponent implements OnInit {
 
   saveData() {
     this.dataStorageService.storeRecipes();
+  }
+
+  loggingOut() {
+    this.authStorageService.logOut();
   }
 
   fetchData() {
