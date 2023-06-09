@@ -8,7 +8,7 @@ export interface AuthResponse {
   idToken: string;
   email: string;
   refreshToken: string;
-  expiresIn: string;
+  expiresIn: number;
   localId: string;
   registered?: boolean;
 }
@@ -16,6 +16,7 @@ export interface AuthResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthStorageService {
   user = new BehaviorSubject<User>(null);
+  private expirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -75,22 +76,58 @@ export class AuthStorageService {
         })
       );
   }
+  // autoLogin
+
+  autoLogin() {
+    const userData: {
+      email: string;
+      id: string;
+      _token: string;
+      _tokenExpirationDate: string;
+    } = JSON.parse(localStorage.getItem('user'));
+    if (!userData) return;
+
+    const currentUser = new User(
+      userData.email,
+      userData.id,
+      userData._token,
+      new Date(userData._tokenExpirationDate)
+    );
+
+    if (currentUser.token) {
+      this.user.next(currentUser);
+      const expiresIn =
+        new Date(userData._tokenExpirationDate).getTime() -
+        new Date().getTime();
+      this.autoLogout(expiresIn);
+    }
+  }
 
   // logout
 
   logOut() {
     this.user.next(null);
     this.router.navigate(['/signin']);
+    localStorage.removeItem('user');
+    if (this.expirationTimer) clearTimeout(this.expirationTimer);
+    this.expirationTimer = null;
+  }
+  // autoLogout
+
+  autoLogout(expiesIn: number) {
+    this.expirationTimer = setTimeout(() => {
+      this.logOut();
+    }, expiesIn);
   }
 
   authenticateUser(resData: {
     email: string;
     localId: string;
     idToken: string;
-    expiresIn: string;
+    expiresIn: number;
   }) {
     const expirationDate = new Date(
-      new Date().getTime() + Number(resData.expiresIn) * 1000
+      new Date().getTime() + resData.expiresIn * 1000
     );
 
     const user = new User(
@@ -100,5 +137,7 @@ export class AuthStorageService {
       expirationDate
     );
     this.user.next(user);
+    this.autoLogout(resData.expiresIn * 1000);
+    localStorage.setItem('user', JSON.stringify(user));
   }
 }
