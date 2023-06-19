@@ -10,7 +10,7 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     RouterModule.forChild([
       {
-        path: 'shoppinglist',
+        path: '',
         component: ShoppingListComponent,
         children: [{ path: 'edit', component: ShoppingEditComponent }],
       },

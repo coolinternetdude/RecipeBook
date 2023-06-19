@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
   }
 
   loggingOut() {
+    this.currentUser = null;
     this.authStorageService.logOut();
   }
 
