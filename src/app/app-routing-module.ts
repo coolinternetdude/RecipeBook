@@ -10,10 +10,6 @@ const appRoutes: Routes = [
     redirectTo: '/signin',
     pathMatch: 'full',
   },
-  {
-    path: 'signin',
-    component: AuthComponent,
-  },
 ];
 
 @NgModule({

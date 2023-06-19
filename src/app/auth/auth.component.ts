@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthResponse, AuthStorageService } from './auth-storage.service';
 import { Observable, Subscription } from 'rxjs';
