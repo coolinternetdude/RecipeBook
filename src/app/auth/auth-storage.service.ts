@@ -3,6 +3,7 @@ import { User } from './user.model';
 import { Injectable } from '@angular/core';
 import { catchError, throwError, BehaviorSubject, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.development';
 
 export interface AuthResponse {
   idToken: string;
@@ -51,7 +52,8 @@ export class AuthStorageService {
   signUp(user: User) {
     return this.http
       .post<AuthResponse>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCkP3kulafvlcmzbfL5UvTYC1-RazKyrNg',
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+          environment.firebaseAPIkey,
         user
       )
       .pipe(
@@ -66,7 +68,8 @@ export class AuthStorageService {
   logIn(user: User) {
     return this.http
       .post<AuthResponse>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCkP3kulafvlcmzbfL5UvTYC1-RazKyrNg',
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
+          environment.firebaseAPIkey,
         user
       )
       .pipe(

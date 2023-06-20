@@ -10,12 +10,16 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+firebase.json
 
 # IDEs and editors
 .idea/
 .project
 .classpath
 .prettierignore
+.github
+.firebase
+.firebaserc
 .eslintrc.js
 .c9/
 *.launch
