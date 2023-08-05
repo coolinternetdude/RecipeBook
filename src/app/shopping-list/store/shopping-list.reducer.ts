@@ -40,7 +40,7 @@ export const shoppingReducer = createReducer(
   })),
   on(editIngredient, (state, action) => {
     const newIngredients = [...state.ingredients];
-    newIngredients[action.id] = action.ingredient;
+    newIngredients[state.editedIngredientIndex] = action.ingredient;
     return { ...state, ingredients: newIngredients };
   }),
   on(addIngredients, (state, action) => ({
@@ -50,7 +50,9 @@ export const shoppingReducer = createReducer(
   on(deleteIngredient, (state, action) => {
     return {
       ...state,
-      ingredients: state.ingredients.filter((val, i) => i !== action.id),
+      ingredients: state.ingredients.filter(
+        (val, i) => i !== state.editedIngredientIndex
+      ),
     };
   }),
   on(startEditing, (state, action) => ({

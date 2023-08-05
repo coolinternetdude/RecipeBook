@@ -13,13 +13,10 @@ export const addIngredients = createAction(
 
 export const editIngredient = createAction(
   '[Ingredient] Edit',
-  props<{ id: number; ingredient: Ingredient }>()
+  props<{ ingredient: Ingredient }>()
 );
 
-export const deleteIngredient = createAction(
-  '[Ingredient] Delete',
-  props<{ id: number }>()
-);
+export const deleteIngredient = createAction('[Ingredient] Delete');
 
 export const startEditing = createAction(
   '[Ingredient] StratEdit',

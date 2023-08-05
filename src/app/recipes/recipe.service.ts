@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
-import { ShoppingService } from '../shopping-list/shopping.service';
 import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { addIngredients } from '../shopping-list/store/shopping-list.actions';
@@ -26,12 +25,7 @@ export class RecipeService {
   }
 
   addIngredientsToshoppingList(ingredients: Ingredient[]) {
-    // the commented solution emit a lot of unecessary events
-    // recipe.ingredients.forEach((item) => {
-    //   this.Shopping.addIngredient(item);
-    // });
     this.store.dispatch(addIngredients({ ingredients }));
-    //this.Shopping.addIngredients(ingredients);
   }
 
   getRecipe(id: number) {
