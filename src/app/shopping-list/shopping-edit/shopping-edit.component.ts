@@ -9,7 +9,7 @@ import {
   editIngredient,
   stopEditing,
 } from '../store/shopping-list.actions';
-import { AppState } from '../store/shopping-list.reducer';
+import * as appStore from '../../store/app.reducer';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -21,7 +21,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   item: Ingredient;
   editMode: boolean = false;
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<appStore.AppState>) {}
 
   addIngredient(form: NgForm) {
     const newIngredient = new Ingredient(form.value.name, form.value.amount);

@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { Ingredient } from '../../shared/ingredient.model';
 import {
   addIngredient,
@@ -13,10 +13,6 @@ export interface ShoppingState {
   ingredients: Ingredient[];
   editedIngredient: Ingredient;
   editedIngredientIndex: number;
-}
-
-export interface AppState {
-  shoppingList: ShoppingState;
 }
 
 const initialState: ShoppingState = {
