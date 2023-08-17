@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
 import { catchError, throwError, BehaviorSubject, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.development';
+import { Store } from '@ngrx/store';
+import * as appStore from '../store/app.reducer';
+import { logIn, logOut } from './store/auth.actions';
 
 export interface AuthResponse {
   idToken: string;
@@ -16,13 +19,17 @@ export interface AuthResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthStorageService {
-  user = new BehaviorSubject<User>(null);
+  //user = new BehaviorSubject<User>(null);
   private expirationTimer: any;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private store: Store<appStore.AppState>
+  ) {}
 
   // Function that handle error messages coming from firebase
-  private errorHandler(resError: HttpErrorResponse) {
+  errorHandler(resError: HttpErrorResponse) {
     let errorMessage = 'Unknow error encountered';
     switch (resError.error.error.message) {
       case 'EMAIL_EXISTS':
@@ -98,7 +105,15 @@ export class AuthStorageService {
     );
 
     if (currentUser.token) {
-      this.user.next(currentUser);
+      //this.user.next(currentUser);
+      this.store.dispatch(
+        logIn({
+          email: currentUser.email,
+          id: currentUser.id,
+          token: currentUser.token,
+          expirationDate: new Date(userData._tokenExpirationDate),
+        })
+      );
       const expiresIn =
         new Date(userData._tokenExpirationDate).getTime() -
         new Date().getTime();
@@ -109,7 +124,8 @@ export class AuthStorageService {
   // logout
 
   logOut() {
-    this.user.next(null);
+    //this.user.next(null);
+    this.store.dispatch(logOut());
     this.router.navigate(['/signin']);
     localStorage.removeItem('user');
     if (this.expirationTimer) clearTimeout(this.expirationTimer);
@@ -139,7 +155,15 @@ export class AuthStorageService {
       resData.idToken,
       expirationDate
     );
-    this.user.next(user);
+    //this.user.next(user);
+    this.store.dispatch(
+      logIn({
+        email: user.email,
+        id: user.id,
+        token: user.token,
+        expirationDate: expirationDate,
+      })
+    );
     this.autoLogout(resData.expiresIn * 1000);
     localStorage.setItem('user', JSON.stringify(user));
   }
